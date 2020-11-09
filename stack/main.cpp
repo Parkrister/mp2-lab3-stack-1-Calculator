@@ -41,28 +41,14 @@ bool Calculator::CheckBrackets()
 	return true;
 }
 
-/*
-	4+(1+2)/(2+3)
-	
-	4 1 2 + 2 3 + / +
-	
-
-*/
-
-
 int main()
 {
+	//Ветка test
 	Calculator calc;
 
-	calc.SetFormula("2+2*2");
+	calc.SetFormula("1+(2+3*4)/5");
 
-	if (calc.CheckBrackets() == true)
-	{
-		//Скобки расставлены верно
-	}
-	else
-	{
-		//ошибка в расстановке скобок
-	}
+	//Удалил проверку корректности расстановки скобок
+
 
 }
