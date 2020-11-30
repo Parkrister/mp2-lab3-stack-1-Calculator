@@ -18,12 +18,18 @@ int main()
 	Calculator calc;
 
 	calc.Setinfix("1+(2+3*4)/5");
-	calc.SetPostfix("2 3 +");
+	calc.SetPostfix("2 3 + 2 -");
 
 	//Вернул проверку корректности расстановки скобок
 	if (calc.CheckBrackets() == true)
 	{
 		//Скобки расставлены верно
+		double res;
+		try {
+			res = calc.CalcPostxif();
+		}
+		catch (int error) { cout << "Incorrect formula\n"; return 0; }
+
 		cout << calc.CalcPostxif();
 	}
 	else
