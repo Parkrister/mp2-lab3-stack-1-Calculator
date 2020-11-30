@@ -3,59 +3,34 @@
 
 #include <iostream>
 #include "stack.h"
-
+#include "Calculator.h"
 #include <string>
 
+#include <Windows.h> 
+HANDLE nConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
+using namespace std;
 
-class Calculator
-{
-	//Строка для исходной формулы, напр., (2+2*2)/3
-	std::string formula;
-	//Стек для символов (скобок)
-	Stack<char> st_c;
-	//Стек для чисел
-	Stack<double> st_d;
-	//Строка для инфиксной формулы
-	std::string infix;//2 2 3 + *
-
-public:
-
-	void SetFormula(std::string str)
-	{
-		formula = str;
-	}
-	bool CheckBrackets();
-
-};
-
-bool Calculator::CheckBrackets()
-{
-	// (2+3
-	int i = 0;
-	formula.size();
-
-	formula[i];
-
-
-	return true;
-}
 
 int main()
 {
-	//Ветка test
+	SetConsoleTextAttribute(nConsole, 15);
 	Calculator calc;
 
-	calc.SetFormula("1+(2+3*4)/5");
+	calc.Setinfix("1+(2+3*4)/5");
+	calc.SetPostfix("2 3 +");
 
 	//Вернул проверку корректности расстановки скобок
 	if (calc.CheckBrackets() == true)
 	{
 		//Скобки расставлены верно
+		cout << calc.CalcPostxif();
 	}
 	else
 	{
+		cout << "Incorrect infix";
 		//ошибка в расстановке скобок
 	}
 
+	return 0;
 }
