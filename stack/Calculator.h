@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
+#include <string.h>
 #include <sstream>
 #include "stack.h"
+#include <cmath>
 
 using namespace std;
 
@@ -45,14 +47,20 @@ public:
 	//вычисление за один проход
 	double Calc();
 
-	string GetPostfix() {
-		return postfix;
-	}
+	string GetPostfix() { return postfix; }
 };
 
 ////////////////////////////////////////////////////////
 
-bool Calculator::CheckBrackets()
+double Calculator::Calc() {
+
+	if (!CheckBrackets()) { throw 1; }
+	ToPostfix();
+	double res = CalcPostxif();
+	return res;
+}
+
+bool Calculator::CheckBrackets() // проверка скобок
 {
 	// (2+3
 	Stack<char> st;
@@ -70,7 +78,7 @@ bool Calculator::CheckBrackets()
 	return st.empty();
 }
 
-int Calculator::Priority(char elem) {
+int Calculator::Priority(char elem) { // приоритеты операций
 	switch (elem) {
 	case '(': case ')':
 		return 0;
@@ -80,6 +88,9 @@ int Calculator::Priority(char elem) {
 		break;
 	case '*': case '/':
 		return 2;
+		break;
+	case '^':
+		return 3;
 		break;
 	}
 }
@@ -95,7 +106,7 @@ void Calculator::ToPostfix() {
 			st_c.push('(');
 		}
 
-		if ( infix[i] == '+' || infix[i] == '-' || infix[i] == '*' || infix[i] == '/') {
+		if ( infix[i] == '+' || infix[i] == '-' || infix[i] == '*' || infix[i] == '/' || infix[i] == '^') {
 			if (Priority(infix[i]) > Priority(st_c.top())) {
 				st_c.push(infix[i]);
 			}
@@ -114,8 +125,12 @@ void Calculator::ToPostfix() {
 			}
 		}
 
-		if (infix[i] >= '0' && infix[i] <= '9') { 
-			postfix.push_back(infix[i]);
+		if ((infix[i] >= '0' && infix[i] <= '9') || infix[i] == '.' || infix[i] == 'e') {
+			while ((infix[i] >= '0' && infix[i] <= '9') || infix[i] == '.' || infix[i] == 'e') {
+				postfix.push_back(infix[i++]);
+			}
+			postfix.push_back(' ');
+			i--;
 		}
 	}
 }
@@ -126,7 +141,7 @@ double Calculator::CalcPostxif() {
 	unsigned int i = 0;
 	st_d.Clear();
 	while (i < postfix.size()) {
-		if (postfix[i] == '+' || postfix[i] == '-' || postfix[i] == '*' || postfix[i] == '/') {
+		if (postfix[i] == '+' || postfix[i] == '-' || postfix[i] == '*' || postfix[i] == '/' || postfix[i] == '^') {
 			double k2 = st_d.pop();
 			double k1 = st_d.pop();
 			switch (postfix[i]) {
@@ -134,11 +149,14 @@ double Calculator::CalcPostxif() {
 				case '-': {st_d.push(k1 - k2); break; }
 				case '*': {st_d.push(k1 * k2); break; }
 				case '/': {st_d.push(k1 / k2); break; }
+				case '^': {st_d.push(pow(k1,k2)); break; }
 			}
 		}
-		if (postfix[i] >= '0' && postfix[i] <= '9') {
-			double tmp = (double)(postfix[i] - '0');
+		if (postfix[i] >= '0' && postfix[i] <= '9') { // считывает число
+			char* end;
+			double tmp = strtod(&postfix[i], &end);
 			st_d.push(tmp);
+			i += end - &postfix[i];
 		}
 		i++;
 	}
