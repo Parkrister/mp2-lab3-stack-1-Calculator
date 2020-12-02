@@ -6,9 +6,6 @@
 #include "Calculator.h"
 #include <string>
 
-#include <Windows.h> 
-HANDLE nConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
 using namespace std;
 
 /*
@@ -24,30 +21,25 @@ CheckBrackets - проверить скобки в инфиксной форму
 
 int main()
 {
-	SetConsoleTextAttribute(nConsole, 15);
-	setlocale(LC_ALL, "Russian");
+//	setlocale(LC_ALL, "Russian");
 
 	Calculator calc;
 
 	string s;
-	cout << "Введите выражение:\n";
+	cout << "enter the formula:\n";
 	getline(cin, s);
 	calc.Setinfix(s);
 
 	try {
 		cout << "CalcOne : " << calc.CalcOne() << endl;
 	}
-	catch (int error) {
-		switch (error) {
-		case 0:
-			cout << "Incorrect formula\n";
-			break;
-		}
+	catch (int error) {	
+		cout << "Incorrect formula\n";
 	}
 	//
 
 	try {
-		cout << "Calc to prefix : " << calc.Calc() << endl;
+		cout << "Calc in prefix : " << calc.Calc() << endl;
 	}
 	catch (int error) {
 		switch (error) {

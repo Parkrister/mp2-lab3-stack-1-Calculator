@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
-#include <string.h>
-#include <sstream>
+#include <cstdlib>
 #include "stack.h"
 #include <cmath>
 
@@ -212,7 +211,7 @@ double Calculator::CalcPostxif() {
 			}
 		}
 		if (postfix[i] >= '0' && postfix[i] <= '9') { // считывает число
-			char* end;
+			char* end = &postfix[i];
 			double tmp = strtod(&postfix[i], &end);
 			st_d.push(tmp);
 			i += end - &postfix[i] - 1;
