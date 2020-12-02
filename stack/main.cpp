@@ -35,7 +35,7 @@ int main()
 	calc.Setinfix(s);
 
 	try {
-		cout << calc.CalcOne() << endl;
+		cout << "CalcOne : " << calc.CalcOne() << endl;
 	}
 	catch (int error) {
 		switch (error) {
@@ -47,7 +47,7 @@ int main()
 	//
 
 	try {
-		cout << calc.Calc() << endl;
+		cout << "Calc to prefix : " << calc.Calc() << endl;
 	}
 	catch (int error) {
 		switch (error) {
