@@ -23,37 +23,96 @@ class Calculator
 
 public:
 
-	Calculator(string s = "0") : st_c(100), st_d(100) {
+	Calculator(string s = "0") : st_c(100), st_d(100) { // конструктор 
 		infix = s;
-		postfix = " ";
+		postfix = "";
 	}
 
-	void Setinfix(string str)
+	void Setinfix(string str = "0")
 	{
 		infix = str;
 	}
 
-	void SetPostfix(string str) {
+	void SetPostfix(string str = "") {
 		postfix = str;
 	}
 
 	//проверка скобок в выражении
 	bool CheckBrackets();
 
-	//перевод выражения из инфиксной в постфиксную форму
+	//перевод выражения из инфиксной в постфиксную форму, запись в postfix
 	void ToPostfix();
 	//вычисление выражения по постфиксной форме
 	double CalcPostxif();
-	//вычисление за один проход
+	//вычисление за 2 прохода
 	double Calc();
+	//вычисление за один проход
+	double CalcOne();
 
 	string GetPostfix() { return postfix; }
 };
 
 ////////////////////////////////////////////////////////
+double Calculator::CalcOne() {
+	infix.push_back(')');
+	infix.insert(infix.begin(), '(');
+	st_c.Clear();
+	st_d.Clear();
+	for (int i = 0; i < infix.size(); i++) {
+		if (infix[i] == '(') {
+			st_c.push('(');
+		}
+
+		if (infix[i] == '+' || infix[i] == '-' || infix[i] == '*' || infix[i] == '/' || infix[i] == '^') {
+			if (Priority(infix[i]) > Priority(st_c.top())) {
+				st_c.push(infix[i]);
+			}
+			else {
+				double k2 = st_d.pop();
+				double k1 = st_d.pop();
+				switch (st_c.pop()) {
+				case '+': {st_d.push(k1 + k2); break; }
+				case '-': {st_d.push(k1 - k2); break; }
+				case '*': {st_d.push(k1 * k2); break; }
+				case '/': {st_d.push(k1 / k2); break; }
+				case '^': {st_d.push(pow(k1, k2)); break; }
+				}
+				st_c.push(infix[i]);
+			}
+		}
+
+		if (infix[i] == ')') {
+			while (st_c.top() != '(') {
+				double k2 = st_d.pop();
+				double k1 = st_d.pop();
+				switch (st_c.pop()) {
+				case '+': {st_d.push(k1 + k2); break; }
+				case '-': {st_d.push(k1 - k2); break; }
+				case '*': {st_d.push(k1 * k2); break; }
+				case '/': {st_d.push(k1 / k2); break; }
+				case '^': {st_d.push(pow(k1, k2)); break; }
+				}
+			}
+			if (st_c.top() == '(') {
+				st_c.pop();
+			}
+		}
+
+		if ((infix[i] >= '0' && infix[i] <= '9') || infix[i] == '.' || infix[i] == 'e') {
+			char* end;
+			double tmp = strtod(&infix[i], &end);
+			st_d.push(tmp);
+			i += end - &infix[i] - 1;
+		}
+	}
+
+	double res = st_d.pop();
+
+	if (!st_d.empty()) { throw 0; } // 2 + 3 5 
+	return res;
+}
 
 double Calculator::Calc() {
-
 	if (!CheckBrackets()) { throw 1; }
 	ToPostfix();
 	double res = CalcPostxif();
@@ -95,7 +154,7 @@ int Calculator::Priority(char elem) { // приоритеты операций
 	}
 }
 
-void Calculator::ToPostfix() {
+void Calculator::ToPostfix() { // перевод в постфиксную форму
 	postfix = " ";
 	infix.push_back(')');
 	infix.insert(infix.begin(), '(');
@@ -156,13 +215,13 @@ double Calculator::CalcPostxif() {
 			char* end;
 			double tmp = strtod(&postfix[i], &end);
 			st_d.push(tmp);
-			i += end - &postfix[i];
+			i += end - &postfix[i] - 1;
 		}
 		i++;
 	}
 	
 	double res = st_d.pop();
 	
-	if (!st_d.empty()) { throw 0; }
+	if (!st_d.empty()) { throw 0; } // 2 + 3 5 
 	return res;
 }
