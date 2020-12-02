@@ -171,7 +171,7 @@ namespace Calculator {
 		calc.Setinfix(infix);
 
 		label4->Text = "";
-		label3->Text = "Prefix form";
+		label3->Text = "Postfix form";
 		
 		double res;
 		try {
