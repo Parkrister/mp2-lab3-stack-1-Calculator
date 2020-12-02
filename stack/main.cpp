@@ -42,9 +42,6 @@ int main()
 		case 0:
 			cout << "Incorrect formula\n";
 			break;
-		case 1:
-			cout << "Incorrect brackets\n";
-			break;
 		}
 	}
 	//

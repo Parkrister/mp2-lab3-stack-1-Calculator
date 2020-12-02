@@ -27,6 +27,9 @@ Stack<T>::Stack(int _MaxSize) { //конструктор по умолчанию
 	size = 0;
 	MaxSize = _MaxSize;
 	mas = new T[MaxSize];
+	for (int i = 0; i < size; i++) {
+		mas[i] = 0;
+	}
 }
 
 template <class T>
