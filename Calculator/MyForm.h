@@ -42,6 +42,8 @@ namespace Calculator {
 	private: System::Windows::Forms::TextBox^ textBox1;
 	private: System::Windows::Forms::Button^ button1;
 	private: System::Windows::Forms::Label^ label2;
+	private: System::Windows::Forms::Label^ label3;
+	private: System::Windows::Forms::Label^ label4;
 	protected:
 
 	private:
@@ -61,6 +63,8 @@ namespace Calculator {
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->label3 = (gcnew System::Windows::Forms::Label());
+			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// label1
@@ -106,16 +110,42 @@ namespace Calculator {
 			this->label2->ForeColor = System::Drawing::SystemColors::ControlLightLight;
 			this->label2->Location = System::Drawing::Point(459, 70);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(0, 39);
+			this->label2->Size = System::Drawing::Size(0, 38);
 			this->label2->TabIndex = 3;
 			this->label2->Click += gcnew System::EventHandler(this, &MyForm::label2_Click);
+			// 
+			// label3
+			// 
+			this->label3->AutoSize = true;
+			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->label3->ForeColor = System::Drawing::SystemColors::ControlLightLight;
+			this->label3->Location = System::Drawing::Point(18, 124);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(125, 25);
+			this->label3->TabIndex = 4;
+			this->label3->Text = L"Postfix form";
+			this->label3->Click += gcnew System::EventHandler(this, &MyForm::label3_Click);
+			// 
+			// label4
+			// 
+			this->label4->AutoSize = true;
+			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->label4->ForeColor = System::Drawing::SystemColors::ControlLightLight;
+			this->label4->Location = System::Drawing::Point(149, 124);
+			this->label4->Name = L"label4";
+			this->label4->Size = System::Drawing::Size(0, 25);
+			this->label4->TabIndex = 5;
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::ActiveBorder;
-			this->ClientSize = System::Drawing::Size(680, 284);
+			this->ClientSize = System::Drawing::Size(741, 251);
+			this->Controls->Add(this->label4);
+			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->textBox1);
@@ -139,13 +169,28 @@ namespace Calculator {
 
 		calculator calc;
 		calc.Setinfix(infix);
-		calc.ToPostfix();
-		double res = calc.CalcOne();
+
+		label4->Text = "";
+		label3->Text = "Prefix form";
+		
+		double res;
+		try {
+			calc.ToPostfix();
+			res = calc.CalcOne();
+			label2->Text = Convert::ToString(res);
+			label4->Text = msclr::interop::marshal_as<String^>(calc.GetPostfix());
+		}
+		catch (int error) {
+			label2->Text = "Error";
+			label3->Text = "Incorrect formula";
+		}
 
 		//вывод на форму
-		label2->Text = Convert::ToString(res);
+		
 	}
 private: System::Void label2_Click(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void label3_Click(System::Object^ sender, System::EventArgs^ e) {
 }
 };
 }

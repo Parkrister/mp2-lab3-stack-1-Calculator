@@ -1,17 +1,14 @@
 #pragma once
-#include <string>
 #include <cstdlib>
 #include "stack.h"
 #include <cmath>
 
-using namespace std;
-
 class calculator
 {
 	//Строка для инфиксной формулы, напр., (2+2*2)/3
-	string infix;
+	std::string infix;
 	//Строка для постфиксной формулы
-	string postfix; // 2 3 +
+	std::string postfix; // 2 3 +
 
 	//Стек для символов (скобок)
 	stack<char> st_c;
@@ -22,17 +19,17 @@ class calculator
 
 public:
 
-	calculator(string s = "0") : st_c(100), st_d(100) { // конструктор 
+	calculator(std::string s = "0") : st_c(100), st_d(100) { // конструктор 
 		infix = s;
 		postfix = "";
 	}
 
-	void Setinfix(string str = "0")
+	void Setinfix(std::string str = "0")
 	{
 		infix = str;
 	}
 
-	void SetPostfix(string str = "") {
+	void SetPostfix(std::string str = "") {
 		postfix = str;
 	}
 
@@ -48,7 +45,7 @@ public:
 	//вычисление за один проход
 	double CalcOne();
 
-	string GetPostfix() { return postfix; }
+	std::string GetPostfix() { return postfix; }
 };
 
 ////////////////////////////////////////////////////////
