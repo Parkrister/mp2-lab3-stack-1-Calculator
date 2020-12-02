@@ -1,15 +1,15 @@
 #pragma once
 
 template <class T>
-class Stack {
+class stack {
 	int size, MaxSize;
 	T* mas;
 public:
-	Stack(int _MaxSize = 10);//конструктор по умолчанию
-	~Stack(); //деструктор
-	Stack(const Stack& m); //конструктор копирования
+	stack(int _MaxSize = 10);//конструктор по умолчанию
+	~stack(); //деструктор
+	stack(const stack& m); //конструктор копирования
 
-	Stack& operator=(const Stack& m);
+	stack& operator=(const stack& m);
 	int getSize() { return size; }
 	bool empty();
 	bool full();
@@ -21,7 +21,7 @@ public:
 
 ////
 template <class T>
-Stack<T>::Stack(int _MaxSize) { //конструктор по умолчанию
+stack<T>::stack(int _MaxSize) { //конструктор по умолчанию
 	if (_MaxSize <= 0)
 		throw _MaxSize;
 	size = 0;
@@ -33,12 +33,12 @@ Stack<T>::Stack(int _MaxSize) { //конструктор по умолчанию
 }
 
 template <class T>
-Stack<T>::~Stack() { //деструктор
+stack<T>::~stack() { //деструктор
 	delete[] mas;
 }
 
 template<class T>
-Stack<T>::Stack(const Stack<T>& m) { //конструктор копирования
+stack<T>::stack(const stack<T>& m) { //конструктор копирования
 	MaxSize = m.MaxSize;
 	size = m.size;
 	mas = new T[MaxSize];
@@ -48,7 +48,7 @@ Stack<T>::Stack(const Stack<T>& m) { //конструктор копирования
 }
 
 template<class T>
-Stack<T>& Stack<T>::operator=(const Stack<T>& m) { // оператор присваивания
+stack<T>& stack<T>::operator=(const stack<T>& m) { // оператор присваивания
 	if (MaxSize != m.MaxSize) {
 		delete[] mas;
 		MaxSize = m.MaxSize;
@@ -63,17 +63,17 @@ Stack<T>& Stack<T>::operator=(const Stack<T>& m) { // оператор присваивания
 }
 
 template<class T>
-bool Stack<T>::empty() { // проверка пустоты
+bool stack<T>::empty() { // проверка пустоты
 	return !(size);
 }
 
 template<class T>
-bool Stack<T>::full() { // проверка заполненности
+bool stack<T>::full() { // проверка заполненности
 	return (size == MaxSize);
 }
 
 template <class T>
-void Stack<T>::push(const T x) { // добавить элемент
+void stack<T>::push(const T x) { // добавить элемент
 	if (full()) {
 		throw MaxSize;
 	}
@@ -83,12 +83,12 @@ void Stack<T>::push(const T x) { // добавить элемент
 }
 
 template <class T>
-void Stack<T>::Clear() {
+void stack<T>::Clear() {
 	size = 0;
 }
 
 template <class T>
-T Stack<T>::pop() { // взять элемент
+T stack<T>::pop() { // взять элемент
 	if (empty()) {
 		throw 0;
 	}
@@ -98,7 +98,7 @@ T Stack<T>::pop() { // взять элемент
 }
 
 template<class T>
-T Stack<T>::top() { // посмотреть верхний элемент
+T stack<T>::top() { // посмотреть верхний элемент
 	if (empty())
 		throw 0;
 	return mas[size - 1];

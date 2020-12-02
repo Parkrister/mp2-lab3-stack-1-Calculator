@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class Calculator
+class calculator
 {
 	//—трока дл€ инфиксной формулы, напр., (2+2*2)/3
 	string infix;
@@ -14,15 +14,15 @@ class Calculator
 	string postfix; // 2 3 +
 
 	//—тек дл€ символов (скобок)
-	Stack<char> st_c;
+	stack<char> st_c;
 	//—тек дл€ чисел
-	Stack<double> st_d;
+	stack<double> st_d;
 
 	int Priority(char elem);
 
 public:
 
-	Calculator(string s = "0") : st_c(100), st_d(100) { // конструктор 
+	calculator(string s = "0") : st_c(100), st_d(100) { // конструктор 
 		infix = s;
 		postfix = "";
 	}
@@ -52,7 +52,7 @@ public:
 };
 
 ////////////////////////////////////////////////////////
-double Calculator::CalcOne() {
+double calculator::CalcOne() {
 	infix.push_back(')');
 	infix.insert(infix.begin(), '(');
 	st_c.Clear();
@@ -111,17 +111,17 @@ double Calculator::CalcOne() {
 	return res;
 }
 
-double Calculator::Calc() {
+double calculator::Calc() {
 	if (!CheckBrackets()) { throw 1; }
 	ToPostfix();
 	double res = CalcPostxif();
 	return res;
 }
 
-bool Calculator::CheckBrackets() // проверка скобок
+bool calculator::CheckBrackets() // проверка скобок
 {
 	// (2+3
-	Stack<char> st;
+	stack<char> st;
 	st.Clear();
 
 	for (int i = 0; i < infix.size(); i++) {
@@ -136,7 +136,7 @@ bool Calculator::CheckBrackets() // проверка скобок
 	return st.empty();
 }
 
-int Calculator::Priority(char elem) { // приоритеты операций
+int calculator::Priority(char elem) { // приоритеты операций
 	switch (elem) {
 	case '(': case ')':
 		return 0;
@@ -153,7 +153,7 @@ int Calculator::Priority(char elem) { // приоритеты операций
 	}
 }
 
-void Calculator::ToPostfix() { // перевод в постфиксную форму
+void calculator::ToPostfix() { // перевод в постфиксную форму
 	postfix = " ";
 	infix.push_back(')');
 	infix.insert(infix.begin(), '(');
@@ -195,7 +195,7 @@ void Calculator::ToPostfix() { // перевод в постфиксную форму
 
 
 // st_d - стек чисел, st_c - стек символов
-double Calculator::CalcPostxif() {
+double calculator::CalcPostxif() {
 	unsigned int i = 0;
 	st_d.Clear();
 	while (i < postfix.size()) {

@@ -9,7 +9,7 @@
 using namespace std;
 
 /*
-class Calculator:
+class calculator:
 
 Setinfix - задать инфиксную формулу
 SetPostfix - задать постфиксную формулу
@@ -23,10 +23,10 @@ int main()
 {
 //	setlocale(LC_ALL, "Russian");
 
-	Calculator calc;
+	calculator calc;
 
 	string s;
-	cout << "enter the formula:\n";
+	cout << "Enter the formula:\n";
 	getline(cin, s);
 	calc.Setinfix(s);
 
